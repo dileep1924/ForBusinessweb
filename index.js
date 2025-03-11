@@ -10,11 +10,18 @@ app.get("/", async (req, res) => {
 
 app.post("/Location/track", async (req, res) => {
     try {
-        let ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+        let ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress || req.socket.remoteAddress;
 
         if (!ip) {
             return res.status(500).json({ message: "Ip address not found" })
         }
+        console.log("IP address is : ", ip)
+
+        if (ip.includes(",")) {
+            ip = ip.split(",")[0]
+        }
+
+        console.log("Cut Ip address", ip)
 
         if (ip === "::1" || ip.startsWith("127")) {
             ip = "2401:4900:7b14:ee1a:9906:b1bc:359f:8873"
@@ -28,6 +35,8 @@ app.post("/Location/track", async (req, res) => {
         }
         const ipresponse = await axios(options)
         const data = ipresponse.data
+
+        console.log("Check data ip address : ", data)
 
         if (data.status !== "success") {
             return res.status(401).json({ message: "Ip Address is not detected" })
