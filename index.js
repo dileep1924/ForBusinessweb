@@ -45,7 +45,7 @@ app.post("/Location/track", async (req, res) => {
             return res.status(401).json({ message: "Ip Address is not detected" })
         }
 
-        const { lat, lon, regionName, city, zip } = data
+        const { lat, lon, regionName, city, zip,country } = data
 
         const currentlocationOptions = {
             method: "GET",
@@ -65,7 +65,8 @@ app.post("/Location/track", async (req, res) => {
             pincode: zip,
             lat: lat,
             lon: lon,
-            streetdata: displayname
+            streetdata: displayname,
+            country:country
         })
 
     } catch (err) {
