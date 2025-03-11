@@ -4,6 +4,9 @@ const { default: axios } = require("axios")
 const { url } = require("inspector")
 const app = express()
 
+app.use(cors())
+app.use(express.json())
+
 app.get("/", async (req, res) => {
     res.send("<h1>Hello World</h1>")
 })
@@ -24,7 +27,7 @@ app.post("/Location/track", async (req, res) => {
         console.log("Cut Ip address", ip)
 
         if (ip === "::1" || ip.startsWith("127")) {
-            ip = "2401:4900:7b14:ee1a:9906:b1bc:359f:8873"
+            ip = "171.79.32.81"
         }
         const options = {
             method: "GET",
