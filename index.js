@@ -86,9 +86,11 @@ app.post("/Location/track", async (req, res) => {
 app.get("/paymentstatus", async (req, res) => {
   try {
     const { payment_id } = req.body;
-    const response = await razorpay.payments.fetch(payment_id);
+    console.log("Payment id",payment_id)
+    const response = await razorpay.payments.fetchPaymentDetails(payment_id);
     res.status(200).json({ message: "details found", data: response });
   } catch (err) {
+    console.log(err)
     res.status(500).json({ message: "id not found" });
   }
 });
